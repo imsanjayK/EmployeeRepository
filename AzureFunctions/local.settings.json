@@ -1,0 +1,22 @@
+{
+    "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "AzureWebJobsDashboard": "UseDevelopmentStorage=true",
+
+    "BaseAddress": "http://dummy.restapiexample.com/api/v1/",
+
+    "ViewEmployees": "employees",
+    "ViewEmployee": "employee/{0}",
+    "Update": "update/{0}",
+    "CreateEmployee": "create",
+    "Delete": "delete/{0}",
+
+    "EmployeesInfo": "EmplyeesInformation",
+    "Populate": "RegistorEmployee",
+    "Modify": "UpdateEmplyee"
+
+
+
+  }
+}
