@@ -7,6 +7,9 @@ using System.Net;
 using System.Configuration;
 using System.IO;
 using Newtonsoft.Json.Linq;
+using RestSharp;
+using System.Net.Http;
+using System.Web.Http.Controllers;
 
 namespace AzureFunctions
 {
@@ -58,13 +61,30 @@ namespace AzureFunctions
             request.Timeout = 1000 * 60;
             request.ContentType = "application/json";
 
-            using ( var response = (HttpWebResponse)request.GetResponse())
+            try
             {
-                using( var reader = new StreamReader(response.GetResponseStream()))
+                using (var response = (HttpWebResponse)request.GetResponse())
                 {
-                    return reader.ReadToEnd();
+                    using (var reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        return reader.ReadToEnd();
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                System.Net.Http.HttpClient httpClient = new System.Net.Http.HttpClient();
+                var req = new System.Net.Http.HttpRequestMessage();
+                req.RequestUri = url;
+                req.Method = System.Net.Http.HttpMethod.Get;
+                req.SetRequestContext(new HttpRequestContext());
+                req.Headers.Add("Cookie",
+                    "PHPSESSID=2bc272b61c9412109909f7337aa9b3e9;ezoadgid_133674=-1;ezoref_133674=;ezoab_133674=mod1;ezCMPCCS=true;active_template::133674=pub_site.1589644252");
+                var res = httpClient.SendAsync(req).Result;
+                return res.Content.ReadAsStringAsync().Result;
+                throw;
+            }
+            
         }
 
         private static string InvokePost(Uri url, object postObject)
@@ -75,6 +95,7 @@ namespace AzureFunctions
             request.Method = "POST";
             request.Timeout = 1000 * 60;
             request.ContentType = "application/json";
+   
 
             using (var stream = request.GetRequestStream())
             {

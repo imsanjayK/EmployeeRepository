@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace AzureFunctions
 {
-    class Count
+    class ResponseBody
     {
-        public int total { get; set; }
+        public string status { get; set; }
+        public Employee[] data { get; set; }
     }
     public class Employee
     {

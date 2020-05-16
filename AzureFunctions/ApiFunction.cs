@@ -67,15 +67,10 @@ namespace AzureFunctions
             log.Info("Employee Population : method started");
             
             var stream = Service.ViewEmployees();
-            var employees = JsonConvert.DeserializeObject<List<Employee>>(stream);
-            //Count c = new Count()
-            //{
-            //    total = employees.Count
-            //};
-            //return Result(JsonConvert.SerializeObject(c, Formatting.Indented));
-           
+            var res = JsonConvert.DeserializeObject<ResponseBody>(stream);
+       
             var j = new JObject();
-            j.Add("Total", employees.Count);
+            j.Add("Total", res.data.Length);
             return Result(j.ToString());
         }
 
